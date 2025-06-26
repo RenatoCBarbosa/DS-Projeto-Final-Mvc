@@ -1,12 +1,52 @@
+@model ProjetoFinalMvc.Models.LocacaoViewModel
+
 @{
-    ViewData["Title"] = "Criar Nova Locação";
+    ViewBag.Title = "Criar Nova Locação";
 }
 
 <h2>Criar Nova Locação</h2>
 
-<form asp-action="Create">
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["MensagemErro"]
+    </div>
+}
+
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Nome" class="control-label"></label>
+        <input asp-for="Nome" class="form-control" />
+        <span asp-validation-for="Nome" class="text-danger"></span>
+    </div>
 
     <div class="form-group">
-        <input type="submit" value="Criar" class="btn btn-primary" />
+        <label asp-for="IdUsuario" class="control-label"></label>
+        <input asp-for="IdUsuario" class="form-control" />
+        <span asp-validation-for="IdUsuario" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DtInicio" class="control-label"></label>
+        <input asp-for="DtInicio" type="date" class="form-control" />
+        <span asp-validation-for="DtInicio" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DtFim" class="control-label"></label>
+        <input asp-for="DtFim" type="date" class="form-control" />
+        <span asp-validation-for="DtFim" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
     </div>
 </form>

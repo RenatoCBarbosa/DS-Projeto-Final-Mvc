@@ -12,15 +12,19 @@ using System.Collections.Generic;
 
 namespace ProjetoFinalMvc.Controllers
 {
+    
+    
     public class LocacaoController : Controller
     {
-        private readonly string _apiUrl = "http://RenatoOakBarbosa.somee.com/ProjetoFinalApi/Locacao/";
+        private readonly string _apiUrl = "https://APIFINAL-OS-RENATO.msagi.somex.com/api/Locacao/";
+
 
         private readonly ApplicationDbContext? _context;
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+
             try
             {
                 using var client = new HttpClient();

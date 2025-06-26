@@ -1,40 +1,62 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// 1. Configuração para ignorar SSL em desenvolvimento (REMOVA EM PRODUÇÃO)
+#if DEBUG
+System.Net.ServicePointManager.ServerCertificateValidationCallback += 
+    (sender, cert, chain, sslPolicyErrors) => true;
+#endif
+
+// 2. Configuração do HttpClient com política de certificado flexível
+builder.Services.AddHttpClient("SomeeApi", client => 
+{
+    client.BaseAddress = new Uri("https://APIFINAL-OS-RENATO.msagi.somex.com/");
+}).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = 
+        HttpCliecurl -o .gitignore https://raw.githubusercontent.com/dotnet/core/main/.gitignorentHandler.DangerousAcceptAnyServerCertificateValidator
+});
+
+// 3. Serviços essenciais
 builder.Services.AddControllersWithViews();
 
 
 
 builder.Services.AddSession(options =>
 {
-options.IdleTimeout = System.TimeSpan.FromSeconds(3600);
+    options.IdleTimeout = TimeSpan.FromSeconds(3600);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 4. Pipeline de configuração
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseHsts(); // Habilita HSTS (remova se estiver com problemas de SSL)
+}
+else
+{
+    app.UseDeveloperExceptionPage();
 }
 
-
-
+// 5. Middlewares
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
-
 app.UseAuthorization();
-app.UseSession(); 
+app.UseSession();
 
-app.MapStaticAssets();
+// 6. Rotas
+app.MapControllerRoute(
+    name: "api",
+    pattern: "api/{controller=Locacao}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-    
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapFallbackToController("Index", "Home");
 
 app.Run();
