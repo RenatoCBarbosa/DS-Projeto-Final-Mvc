@@ -1,0 +1,18 @@
+using System;
+
+namespace ProjetoFinalMvc.Models
+{
+    public class Locacao
+    {
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public int IdUsuario { get; set; }
+        public int IdPropostaLocador { get; set; }
+        public int Classe { get; set; }
+        public int IdLocador { get; set; }
+        public DateTime DtInicio { get; set; }
+        public DateTime DtFim { get; set; }
+        public DateTime DtSituacao { get; set; }
+        public int IdUsuarioSituacao { get; set; }
+    }
+}

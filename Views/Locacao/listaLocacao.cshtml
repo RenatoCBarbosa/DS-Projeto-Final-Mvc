@@ -1,0 +1,58 @@
+@model List<ProjetoFinalMvc.Models.LocacaoViewModel>
+
+@{
+    ViewBag.Title = "Lista de Locações";
+}
+
+<h2>Lista de Locações</h2>
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["MensagemErro"]
+    </div>
+}
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Item</th>
+                <th>Usuário</th>
+                <th>Data de Início</th>
+                <th>Data de Fim</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>@Model[i].Nome</td>
+                    <td>@Model[i].Id</td>
+                    <td>@Model[i].IdUsuario</td>
+                    <td>@Model[i].IdPropostaLocador</td>
+                    <td>@Model[i].Classe</td>
+                    <td>@Model[i].IdLocador</td>
+                    <td>@Model[i].DtInicio.ToString("dd/MM/yyyy")</td>
+                    <td>@Model[i].DtFim.ToString("dd/MM/yyyy")</td>
+                    <td>@Model[i].DtSituacao.ToString("dd/MM/yyyy")</td>
+                    <td>@Model[i].IdUsuarioSituacao</td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = Model[i].Id }, new { @class = "btn btn-warning btn-sm" })
+                        @Html.ActionLink("Detalhes", "Details", new { id = Model[i].Id }, new { @class = "btn btn-info btn-sm" })
+                        @Html.ActionLink("Excluir", "Delete", new { id = Model[i].Id }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">Nenhuma locação encontrada.</div>
+}
